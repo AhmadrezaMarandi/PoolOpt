@@ -67,7 +67,7 @@ function Haverly_1()
  # code(K,I,L,J,AI,AJ,AL,CI,CL,CJ,UI,UJ,UL,Mu_max,Mu_min,Lambda,costI,costJ,costL,Demandcost);
  #  include("elimination_2edition.jl");
  # include("replacing_equality.jl")
- return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
+ return I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost
 
 end
 function Haverly_2()

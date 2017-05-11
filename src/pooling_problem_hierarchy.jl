@@ -1,77 +1,11 @@
 using Mosek
 	using Polyopt
-include("pooling_data.jl")
-
-    function unique_ro(A,Al)
-      B=Array{Float64,2}[];
-      vect=Array{Int64,1}[];
-      for i=1:size(A,1)-1
-        count=0;
-        for j=i+1:size(A,1)
-          if A[i,:]==A[j,:]
-            count=count+1;
-            break;
-          end
-          
-        end
-        if count==0
-
-          vect=[vect;i];
-        end
-      end
-
-        vect=[vect;size(A,1)];
-        B=A[vect,:];
-        q=size(Al,1);
-        assigned=0;
-        removed=0;
-        A_l=Al;
-        for i=1:q       
-          z=indexin(vect,collect(assigned+1:assigned+size(Al[i],1)));
-          size_z=size(find(z),1);
-          assigned=assigned+size(Al[i],1);
-          A_l[i]=Al[i][z[removed+1:removed+size_z],:];          
-          removed=removed+size_z;
-        end
-        return(A_l);
-    end
-
-function moment(n,tau,y)
-  a=Polyopt.monomials(tau,variables("y",n));
-  si=size(a,1);
-  # b=zeros(si,n);
-  # for i=1:si
-  #   b[i,:]=a[i].alpha;
-  # end
-  beta=Polyopt.monomials(Int(floor((tau+1)/2)),variables("y",n));
-  n_moment=size(beta,1);
-  M=zeros(n_moment,n_moment);
-  Mt=zeros(n_moment,n_moment);
-  for i=1:n_moment
-    for j=i:n_moment
-      mon=beta[i]*beta[j];
-      d=find(Bool[mon.alpha==a[k].alpha for k=1:si])
-      if size(d,1)!=0
-          M[i,j]=y[d[1]];
-          if i==j
-            Mt[i,j]=M[i,j];
-          end
-      else
-        M[i,j]=0;
-        if i==j
-            Mt[i,j]=M[i,j];
-          end
-      end
-
-    end
-  end
-  M=M+M'-Mt;
-  return(M);
-end
 
 
-function elimination_equality(I::Int64,J::Int64,K::Int64,L::Int64,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
+    
 
+function elimination_equality(data_a)
+ I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
 
 	Ma_lamb=maximum(Lambda);
  Mi_lamb=minimum(Lambda);
@@ -403,10 +337,11 @@ function elimination_equality(I::Int64,J::Int64,K::Int64,L::Int64,AI,AJ,AL,C_I,C
 
 
 	print_with_color(:yellow,"====================Constraints are constructed!=============\n")
-	f,g ,n,Y_ij,Y_lj,Y_il,P_lk
+	f,g ,n
 end
 
-function with_equality(I::Int64,J::Int64,K::Int64,L::Int64,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
+function with_equality(data_a)
+  I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
  Ma_lamb=maximum(Lambda);
  Mi_lamb=minimum(Lambda);
  MO=maximum(C_J);
@@ -686,16 +621,13 @@ function with_equality(I::Int64,J::Int64,K::Int64,L::Int64,AI,AJ,AL,C_I,C_J,C_L,
        (ones(SizeUJindex[1],1)-((MO./UJ[UJindex]).*Y_ij[UJindex]))[:,1]];
 
 
-  f,g,eq,n,Y_ij_index,Y_lj_index,Y_il_index,P_lk_index
+  f,g,eq,n
 end
 
 
 function pooling_with_eq_BSOS(data_a , d::Int, k::Int)
 
-
-	I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-	@time f_eq, g_eq, eq_eq, n_eq,Y_ij,Y_lj,Y_il,P_lk=with_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
+	@time f_eq, g_eq, eq_eq, n_eq=with_equality(data_a);
 	 f_eqscale = maximum(abs(f_eq.c));
     # f_eqscale=1;
     f_eq=Polyopt.truncate(1/f_eqscale*f_eq);
@@ -728,9 +660,7 @@ end
 function pooling_without_eq_BSOS(data_a , d::Int, k::Int)
 
 
-	I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-	@time f, g, n,Y_ij,Y_lj,Y_il,P_lk=elimination_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
+	@time f, g, n=elimination_equality(data_a);
 	  fscale = maximum(abs(f.c));
      # fscale=1;
     f=Polyopt.truncate(1/fscale*f);
@@ -772,16 +702,13 @@ function pooling_without_eq_BSOS(data_a , d::Int, k::Int)
       end
       tau=maximum(deg);
       tau=maximum([f.deg, 2*k , d*tau]);
-      M=moment(n,tau,y);
-      return( rank(M),t*fscale,solsta,time_solution)
+      return( t*fscale,solsta,time_solution)
 end
 
 function pooling_with_eq_Sparse_BSOS(data_a , d::Int, k::Int)
 
 
-	I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-	@time f_eq, g_eq, eq_eq, n_eq,Y_ij,Y_lj,Y_il,P_lk=with_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
+	@time f_eq, g_eq, eq_eq, n_eq=with_equality(data_a);
 	 f_eqscale = maximum(abs(f_eq.c));
     # f_eqscale=1;
     f_eq=Polyopt.truncate(1/f_eqscale*f_eq);
@@ -818,9 +745,7 @@ end
 function pooling_without_eq_Sparse_BSOS(data_a , d::Int, k::Int)
 
 
-	I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-	f, g, n,Y_ij,Y_lj,Y_il,P_lk=elimination_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
+	f, g, n=elimination_equality(data_a);
 	 fscale = maximum(abs(f.c));
     # fscale=1;
     f=Polyopt.truncate(1/fscale*f);
@@ -850,9 +775,7 @@ end
 function pooling_with_eq_Merge_Sparse_BSOS(data_a , d::Int, k::Int)
 
 
-  I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-  @time f_eq, g_eq, eq_eq, n_eq,Y_ij,Y_lj,Y_il,P_lk=with_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
+  @time f_eq, g_eq, eq_eq, n_eq=with_equality(data_a);
    f_eqscale = maximum(abs(f_eq.c));
     # f_eqscale=1;
     f_eq=Polyopt.truncate(1/f_eqscale*f_eq);
@@ -866,38 +789,38 @@ function pooling_with_eq_Merge_Sparse_BSOS(data_a , d::Int, k::Int)
     end
       I_block = Polyopt.chordal_embedding(Polyopt.correlative_sparsity(f_eq,[g_eq;eq_eq]));
       print_with_color(:yellow,"====================Checking the overlaps between the cliques... =============\n")
-             I=Array{Array{Int64,1},1}(L);
-      l=1;
-      while l<=size(I,1)
-        I[l]=[];
-        q=1;
-        if size(I_block,1)>=1
-          while q<=size(I_block,1)
-           if size(intersect(I_block[q],Y_il[:,l]),1)>0
-               I[l]=union(I_block[q],I[l]);
-               deleteat!(I_block,q);
-            else
-               q=q+1;
-           end
-          end
-          l=l+1;
-        else
-            deleteat!(I,l);
-        end
-      end
-      l=1;
-      while l<=size(I,1)
-        if size(I[l],1)==0
-          deleteat!(I,l);
-        else
-          l=l+1;
-        end
-      end
-      if size(I_block,1)>=1
-        I_block=[I;I_block];
-      else
-        I_block=I;
-      end
+      #        I=Array{Array{Int64,1},1}(size(I_block)[1]);
+      # l=1;
+      # while l<=size(I,1)
+      #   I[l]=[];
+      #   q=1;
+      #   if size(I_block,1)>=1
+      #     while q<=size(I_block,1)
+      #      if size(intersect(I_block[q],Y_il[:,l]),1)>0
+      #          I[l]=union(I_block[q],I[l]);
+      #          deleteat!(I_block,q);
+      #       else
+      #          q=q+1;
+      #      end
+      #     end
+      #     l=l+1;
+      #   else
+      #       deleteat!(I,l);
+      #   end
+      # end
+      # l=1;
+      # while l<=size(I,1)
+      #   if size(I[l],1)==0
+      #     deleteat!(I,l);
+      #   else
+      #     l=l+1;
+      #   end
+      # end
+      # if size(I_block,1)>=1
+      #   I_block=[I;I_block];
+      # else
+      #   I_block=I;
+      # end
      I=I_block;
      Cmatr=collect(combinations(collect(1:size(I,1)),2));
      i=1;
@@ -935,9 +858,7 @@ end
 function pooling_without_eq_Merge_Sparse_BSOS(data_a , d::Int, k::Int)
 
 
-  I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-  f, g, n,Y_ij,Y_lj,Y_il,P_lk=elimination_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
+  f, g, n=elimination_equality(data_a);
    fscale = maximum(abs(f.c));
     # fscale=1;
     f=Polyopt.truncate(1/fscale*f);
@@ -977,36 +898,3 @@ function pooling_without_eq_Merge_Sparse_BSOS(data_a , d::Int, k::Int)
       return( size(I),t*fscale,solsta,time_solution)
 end
 
-function pooling_without_eq_McCormick_BSOS(data_a , d::Int, k::Int)
-
-
-  I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
-
-  @time f, g, n,Y_ij,Y_lj,Y_il,P_lk=elimination_equality(I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost);
-    fscale = maximum(abs(f.c));
-     # fscale=1;
-    f=Polyopt.truncate(1/fscale*f);
-    g=Array{Polyopt.Poly{Float64},1}(g);
-    I = Array{Int,1}[ collect(1:n) ];
-    include("Adding_McCormick.jl")
-    eq=Polyopt.Poly{Int64}[];
-    g=Adding_McCormick_envelope(n,g,eq,f,I);
-    for i=1:length(g)
-        g[i] = Polyopt.truncate(0.9*g[i])
-    end
-    I=Array{Int,1}[ collect(1:n) ];
-    y=variables("y",n);
-   for j=1:size(I,1)
-            z=variables("z",size(I[j],1));
-            Ihelp=I[j];
-            for i=1:size(Ihelp,1)
-                z[i]=y[Ihelp[i]]^2;
-            end
-            g=[g;
-                 1-sum(z)*(1/size(Ihelp,1))];             
-   end
-      prob = bsosprob_chordal(d, k, I, f, g);
-      # print_with_color(:yellow,"====================MOSEK is solving the problem... =============\n")
-     time_solution=@elapsed X, t, l,  y ,solsta = solve_mosek(prob, tolrelgap=1e-8);
-      return( t*fscale,solsta,time_solution)
-end
