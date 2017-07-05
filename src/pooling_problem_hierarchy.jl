@@ -7,7 +7,7 @@ using Mosek
 function elimination_equality(data_a)
  I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost=data_a;
 
-	Ma_lamb=maximum(Lambda);
+  Ma_lamb=maximum(Lambda);
  Mi_lamb=minimum(Lambda);
  MO=maximum(C_J);
  UIindex=find(1./UI);
@@ -54,7 +54,7 @@ function elimination_equality(data_a)
  end
 
  n=L*K+Int(sum(Pooloutputsize))+
-			Int(sum(Inputoutputsize))+Int(sum(Poolinputsize))-L*(K+1);
+      Int(sum(Inputoutputsize))+Int(sum(Poolinputsize))-L*(K+1);
 
 
  y =variables("y" ,n);
@@ -73,131 +73,131 @@ function elimination_equality(data_a)
  Y_ij=reshape(0.1*z[1:I*J],I,J);
 
  #constructing the input-output variables as Y_ij
-	 for i=1:I
-	 	for j=1:Int(Inputoutputsize[i])
-	 		h=Inputoutput[i];
-	 		Y_ij[i,h[j]]=yin[Int(sum(Inputoutputsize[1:i-1]))+j];
-	 	end
-	 	for j=1:J
-	 		if !(j in Inputoutput[i])
-	 			Y_ij[i,j]=0;
-	 		end
-	 	end
-	 	if i==I
-	 		 print_with_color(:yellow,"=================Input-output variables are build!=================\n")
-	 	end
-	 end
-	 
+   for i=1:I
+    for j=1:Int(Inputoutputsize[i])
+      h=Inputoutput[i];
+      Y_ij[i,h[j]]=yin[Int(sum(Inputoutputsize[1:i-1]))+j];
+    end
+    for j=1:J
+      if !(j in Inputoutput[i])
+        Y_ij[i,j]=0;
+      end
+    end
+    if i==I
+       print_with_color(:yellow,"=================Input-output variables are build!=================\n")
+    end
+   end
+   
  for l=1:L
-	#constructing the pool-output variables as Y_lj
-	 	for j=1:Int(Pooloutputsize[l])
-	 		h=Pooloutput[l];
-	 		Y_lj[l,h[j]]=yout[Int(sum(Pooloutputsize[1:l-1]))+j];
-	 	end
-	 	for j=1:J
-	 		if !(j in Pooloutput[l])
-	 			Y_lj[l,j]=0;
-			end
-	 	end
-	 	if l==L
-	 			 print_with_color(:yellow,"=================Pool-output variables are build!=================\n")
-	 	end
+  #constructing the pool-output variables as Y_lj
+    for j=1:Int(Pooloutputsize[l])
+      h=Pooloutput[l];
+      Y_lj[l,h[j]]=yout[Int(sum(Pooloutputsize[1:l-1]))+j];
+    end
+    for j=1:J
+      if !(j in Pooloutput[l])
+        Y_lj[l,j]=0;
+      end
+    end
+    if l==L
+         print_with_color(:yellow,"=================Pool-output variables are build!=================\n")
+    end
  end
 
 
  for l=1:L
-	if Poolinputsize[l]>=K+1
-		# the elimination will be on the input-pools variables when the incoming arcs are enough
-		p=y[assignedNumber+1:assignedNumber+K];
-		yinpool=y[assignedNumber+K+1: assignedNumber+K+Int(Poolinputsize[l])-(K+1)]; # input-pool
-		assignedNumber=assignedNumber+K+Int(Poolinputsize[l])-(K+1);
-	 	#constructing the concentration variables as p_lk
-	 		P_lk[l,:]=p[:];
-	 		if l==L
-	 			print_with_color(:yellow,"=================Concentration variables are build!=================\n")
-	 		end
-	 	#constructing the input-pool variables as Y_il
-	 	h=Lambda[Poolinput[l],:];
-		A=[ones(1,Int(Poolinputsize[l]));
-	    	h'] ; # A is the coeffiecient matrix of the input flow variables
-			 # print(A)
-	 	(Q,R)=qr(A,thin=false); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
-	 	#Solving elimination (25) in Marandi, de Klerk, Dahl's paper
-	 	h=sum(Y_lj[l,:]);
-	 	Pvec=[];
-	 	for k=1:K
-	 		Pvec=[Pvec;h*((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)];
-	 	end
-	 	Pvec=[h;Pvec];
-	 		# R[:,1:K+1] yinpool[sum(Poolinputsize[1:l-1])+1:sum(Poolinputsize[1:l-1])+K+1]=h*Q'*[1;P_lk[l,:]]-R[:,K+2:end]*[Y_il[k+1:end]]
-	 	 #we use pseudoinverse for elimination
-	 	 A_plas=pinv(R[:,1:K+1]);
-	 		y_help=A_plas*(Q'*Pvec-R[:,K+2:end]*yinpool);
-	 	
-	 		hh=Poolinput[l];
-	 		for i=1:Int(Poolinputsize[l]) #elimination of the first K+1 feeding inputs
-	 			if i<=K+1
-	 				Y_il[Int(hh[i]),l]=y_help[i];
-				 #h itself is Any but h[1] is Poly. Also, right side is float
-	 			else
-	 				Y_il[Int(hh[i]),l]=yinpool[i-K-1];
-	 			end
-	 		end
-	 		for i=1:I
-	 			if !(i in hh)
-	 				Y_il[i,l]=0;
-	 			end
-	 		end
-	 	if l==L
-	 		print_with_color(:yellow,"==========Input-pool variables are build, considering elimination of the equality constraints!=============\n \n")
-	 	end
-	else
-		 # the elimination will be on the input-pools and concentration variables
-		p=y[assignedNumber+1:assignedNumber+Int(Poolinputsize[l])-1];
-		# yinpool=y[assignedNumber+K+1: assignedNumber+K+Int(Poolinputsize[l])-(K+1)]; # input-pool
-		assignedNumber=assignedNumber+Int(Poolinputsize[l])-1;
-		#Solving elimination (25) in Marandi, de Klerk, Dahl's paper
-	 	#constructing the concentration variables as p_lk
-	 	for k=1:Int(Poolinputsize[l])-1
-	 		P_lk[l,k]=p[k];
-	 	end
-	 	h=Lambda[Poolinput[l],:];
-		A=[ones(1,Int(Poolinputsize[l]));
-	    	h'] ; # A is the coeffiecient matrix of the input flow variables
-			 # print(A)
-	 	(Q,R)=qr(A,thin=false); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
-	 	Q=Q';
-	 	# 0=Q'*[1; P_lk]
-	 	h=-pinv(Q[Int(Poolinputsize[l])+1:K+1,Int(Poolinputsize[l])+1:K+1])*Q[Int(Poolinputsize[l])+1:K+1,1:Int(Poolinputsize[l])]*[1/(Ma_lamb-Mi_lamb);p+(Mi_lamb/(Ma_lamb-Mi_lamb))*ones(Int(Poolinputsize[l])-1,1)]-(Mi_lamb/(Ma_lamb-Mi_lamb))*ones(-Int(Poolinputsize[l])+K+1,1);
-	 	for k=Int(Poolinputsize[l]):K
-	 		P_lk[l,k]=h[k-Int(Poolinputsize[l])+1];
-	 	end
-	 	if l==L
-	 			print_with_color(:yellow,"=================Concentration variables are build!=================\n")
-	 	end
-	 	h=sum(Y_lj[l,:]);
-	 	Pvec=[];
-	 	for k=1:K
-	 		Pvec=[Pvec;h*((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)];
-	 	end
-	 	Pvec=[h;Pvec];
-	 		# R[:,1:K+1] yinpool[sum(Poolinputsize[1:l-1])+1:sum(Poolinputsize[1:l-1])+K+1]=h*Q'*[1;P_lk[l,:]]-R[:,K+2:end]*[Y_il[k+1:end]]
-	 	 #we use pseudoinverse for elimination
-	 	 A_plas=pinv(R);
-	 		y_help=A_plas*Q[1:Int(Poolinputsize[l]),:]*Pvec;
-	 		hh=Poolinput[l];
-	 		for i=1:Int(Poolinputsize[l]) #elimination of the first K+1 feeding inputs
-	 				Y_il[Int(hh[i]),l]=y_help[i];
-	 		end
-	 		for i=1:I
-	 			if !(i in hh)
-	 				Y_il[i,l]=0;
-	 			end
-	 		end
-	 	if l==L
-	 		print_with_color(:yellow,"==========Input-pool variables are build, considering elimination of the equality constraints!=============\n \n")
-	 	end
-	end
+  if Poolinputsize[l]>=K+1
+    # the elimination will be on the input-pools variables when the incoming arcs are enough
+    p=y[assignedNumber+1:assignedNumber+K];
+    yinpool=y[assignedNumber+K+1: assignedNumber+K+Int(Poolinputsize[l])-(K+1)]; # input-pool
+    assignedNumber=assignedNumber+K+Int(Poolinputsize[l])-(K+1);
+    #constructing the concentration variables as p_lk
+      P_lk[l,:]=p[:];
+      if l==L
+        print_with_color(:yellow,"=================Concentration variables are build!=================\n")
+      end
+    #constructing the input-pool variables as Y_il
+    h=Lambda[Poolinput[l],:];
+    A=[ones(1,Int(Poolinputsize[l]));
+        h'] ; # A is the coeffiecient matrix of the input flow variables
+       # print(A)
+    (Q,R)=qr(A,thin=false); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
+    #Solving elimination (25) in Marandi, de Klerk, Dahl's paper
+    h=sum(Y_lj[l,:]);
+    Pvec=[];
+    for k=1:K
+      Pvec=[Pvec;h*((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)];
+    end
+    Pvec=[h;Pvec];
+      # R[:,1:K+1] yinpool[sum(Poolinputsize[1:l-1])+1:sum(Poolinputsize[1:l-1])+K+1]=h*Q'*[1;P_lk[l,:]]-R[:,K+2:end]*[Y_il[k+1:end]]
+     #we use pseudoinverse for elimination
+     A_plas=pinv(R[:,1:K+1]);
+      y_help=A_plas*(Q'*Pvec-R[:,K+2:end]*yinpool);
+    
+      hh=Poolinput[l];
+      for i=1:Int(Poolinputsize[l]) #elimination of the first K+1 feeding inputs
+        if i<=K+1
+          Y_il[Int(hh[i]),l]=y_help[i];
+         #h itself is Any but h[1] is Poly. Also, right side is float
+        else
+          Y_il[Int(hh[i]),l]=yinpool[i-K-1];
+        end
+      end
+      for i=1:I
+        if !(i in hh)
+          Y_il[i,l]=0;
+        end
+      end
+    if l==L
+      print_with_color(:yellow,"==========Input-pool variables are build, considering elimination of the equality constraints!=============\n \n")
+    end
+  else
+     # the elimination will be on the input-pools and concentration variables
+    p=y[assignedNumber+1:assignedNumber+Int(Poolinputsize[l])-1];
+    # yinpool=y[assignedNumber+K+1: assignedNumber+K+Int(Poolinputsize[l])-(K+1)]; # input-pool
+    assignedNumber=assignedNumber+Int(Poolinputsize[l])-1;
+    #Solving elimination (25) in Marandi, de Klerk, Dahl's paper
+    #constructing the concentration variables as p_lk
+    for k=1:Int(Poolinputsize[l])-1
+      P_lk[l,k]=p[k];
+    end
+    h=Lambda[Poolinput[l],:];
+    A=[ones(1,Int(Poolinputsize[l]));
+        h'] ; # A is the coeffiecient matrix of the input flow variables
+       # print(A)
+    (Q,R)=qr(A,thin=false); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
+    Q=Q';
+    # 0=Q'*[1; P_lk]
+    h=-pinv(Q[Int(Poolinputsize[l])+1:K+1,Int(Poolinputsize[l])+1:K+1])*Q[Int(Poolinputsize[l])+1:K+1,1:Int(Poolinputsize[l])]*[1/(Ma_lamb-Mi_lamb);p+(Mi_lamb/(Ma_lamb-Mi_lamb))*ones(Int(Poolinputsize[l])-1,1)]-(Mi_lamb/(Ma_lamb-Mi_lamb))*ones(-Int(Poolinputsize[l])+K+1,1);
+    for k=Int(Poolinputsize[l]):K
+      P_lk[l,k]=h[k-Int(Poolinputsize[l])+1];
+    end
+    if l==L
+        print_with_color(:yellow,"=================Concentration variables are build!=================\n")
+    end
+    h=sum(Y_lj[l,:]);
+    Pvec=[];
+    for k=1:K
+      Pvec=[Pvec;h*((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)];
+    end
+    Pvec=[h;Pvec];
+      # R[:,1:K+1] yinpool[sum(Poolinputsize[1:l-1])+1:sum(Poolinputsize[1:l-1])+K+1]=h*Q'*[1;P_lk[l,:]]-R[:,K+2:end]*[Y_il[k+1:end]]
+     #we use pseudoinverse for elimination
+     A_plas=pinv(R);
+      y_help=A_plas*Q[1:Int(Poolinputsize[l]),:]*Pvec;
+      hh=Poolinput[l];
+      for i=1:Int(Poolinputsize[l]) #elimination of the first K+1 feeding inputs
+          Y_il[Int(hh[i]),l]=y_help[i];
+      end
+      for i=1:I
+        if !(i in hh)
+          Y_il[i,l]=0;
+        end
+      end
+    if l==L
+      print_with_color(:yellow,"==========Input-pool variables are build, considering elimination of the equality constraints!=============\n \n")
+    end
+  end
  end
 
  print_with_color(:yellow,"==========The model is being constructed ... =============\n \n")
@@ -223,15 +223,15 @@ function elimination_equality(data_a)
  #capacity ristrictions
  for i=1:SizeCIindex
 
-	g=[g;
-		1-(MO/C_I[CIindex[i]])*(sum(Y_il[CIindex[i],:])+
-								sum(Y_ij[CIindex[i],:]))];
+  g=[g;
+    1-(MO/C_I[CIindex[i]])*(sum(Y_il[CIindex[i],:])+
+                sum(Y_ij[CIindex[i],:]))];
  end
  for i=1:SizelCIindex
        g=[g;
            -(lCI[lCIindex[i]])/(MO*(L+J))+(1/(L+J))*(sum(Y_il[lCIindex[i],:])+
-													 sum(Y_ij[lCIindex[i],:])
-													)];
+                           sum(Y_ij[lCIindex[i],:])
+                          )];
  end 
  for l=1:SizeCLindex
        g=[g;
@@ -246,84 +246,102 @@ function elimination_equality(data_a)
  for j=1:SizeCJindex
        g=[g;
            1-MO/(C_J[CJindex[j]])*(sum(Y_ij[:,CJindex[j]])+
-           						   sum(Y_lj[:,CJindex[j]]))];
+                         sum(Y_lj[:,CJindex[j]]))];
  end
  for j=1:SizelCJindex
        g=[g;
            -(lCJ[lCJindex[j]])/(MO*(I+L))+(1/(I+L))*(sum(Y_ij[:,CJindex[j]])+
-           						                     sum(Y_lj[:,CJindex[j]]))];
+                                           sum(Y_lj[:,CJindex[j]]))];
  end
 
  #MU_max constraint
  for j=1:J
     for k=1:K
+      # if Mi_lamb>=0
         g=[g;
-            (1/((Mu_max[j,k])*(I+L)-I*min(minimum(Lambda[:,k]),0)))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
-            														(sum(Lambda[:,k].*Y_ij[:,j])+
-            															(Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
-            																				Mi_lamb*sum(Y_lj[:,j])
-            														))];
+            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+                                        (sum(Lambda[:,k].*Y_ij[:,j])+
+                                          (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+                                                    Mi_lamb*sum(Y_lj[:,j])
+                                        ))];
+      # elseif Mu_max[j,k]>=0
+      #           g=[g;
+      #       (1/((Mu_max[j,k])*(I+L)-sum(min(Lambda[:,k],0))-Mi_lamb*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+      #                                   (sum(Lambda[:,k].*Y_ij[:,j])+
+      #                                     (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+      #                                               Mi_lamb*sum(Y_lj[:,j])
+      #                                   ))];
+      # else
+      #     g=[g;
+      #       (1/(-sum(min(Lambda[:,k],0))-Mi_lamb*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+      #                                   (sum(Lambda[:,k].*Y_ij[:,j])+
+      #                                     (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+      #                                               Mi_lamb*sum(Y_lj[:,j])
+      #                                   ))];
+      # end
     end
+
+
  end
  #Mu_min constraint
   for j=1:J
     for k=1:K
         help=1/Mu_min[j,k];
         if help!=0
-            if Mu_min[j,k]>=0
+            # if min( Mu_min[j,k],Mi_lamb)>=0
              g=[g;
-               (1/(Ma_lamb*(I+L)))*(sum(Lambda[:,k].*Y_ij[:,j])+
-               						  (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
-               						   Mi_lamb*sum(Y_lj[:,j])-
-               						   (Mu_min[j,k])*(sum(Y_ij[:,j])+
-               						   				  sum(Y_lj[:,j])
-               						   				  )
-               						   )];
-            else
-                g=[g;
-               (1/((Ma_lamb*I+L-Mu_min[j,k]*(I+L))))*(sum(Lambda[:,k].*Y_ij[:,j])+
-               											(Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
-               											Mi_lamb*sum(Y_lj[:,j])-
-               											(Mu_min[j,k])*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))
-               											)];
-            end
+               (1/(sum(max(Lambda[:,k],0))+L*(Ma_lamb-Mi_lamb)+L*max(0,Mi_lamb)-min(Mu_min[j,k],0)*(I+L)))*(sum(Lambda[:,k].*Y_ij[:,j])+
+                            (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+                             Mi_lamb*sum(Y_lj[:,j])-
+                             (Mu_min[j,k])*(sum(Y_ij[:,j])+
+                                      sum(Y_lj[:,j])
+                                      )
+                             )];
+            # elseif
+            #     g=[g;
+            #    (1/((Ma_lamb*I+L-Mu_min[j,k]*(I+L))))*(sum(Lambda[:,k].*Y_ij[:,j])+
+            #                         (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+            #                         Mi_lamb*sum(Y_lj[:,j])-
+            #                         (Mu_min[j,k])*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))
+            #                         )];
+            # end
         end
     end
   end
 
-	#sign constraints
-	for l=1:L
-   	 for k=1:K
+  #sign constraints
+  for l=1:L
+     for k=1:K
         g=[g;
             P_lk[l,k]];
-  	  end
-	end
-	for i=1:I
-   	 for l=1:L
+      end
+  end
+  for i=1:I
+     for l=1:L
         if(AI[i,l]==1)
-      	  g=[g;
+          g=[g;
             (1/((J+(I-1))))*Y_il[i,l]];
-      	  end
-    	end
-	end
+          end
+      end
+  end
 
-	for j=1:J
-   	 for l=1:L
+  for j=1:J
+     for l=1:L
         if(AL[l,j]==1)
         g=[g;
             (1/(I+(J-1)))*Y_lj[l,j]];
         end
-   	 end
-	end
-	for j=1:J
-    	for i=1:I
-      	  if(AJ[i,j]==1)
-      	  g=[g;
-      	      Y_ij[i,j]];
-     	   end
-    	end
-	end
-	#pipe capacity restriction
+     end
+  end
+  for j=1:J
+      for i=1:I
+          if(AJ[i,j]==1)
+          g=[g;
+              Y_ij[i,j]];
+         end
+      end
+  end
+  #pipe capacity restriction
   g=[g;
        (ones(SizeUIindex[1],1)-((MO./UI[UIindex]).*Y_il[UIindex]))[:,1]];
 
@@ -336,7 +354,7 @@ function elimination_equality(data_a)
        (ones(SizeUJindex[1],1)-((MO./UJ[UJindex]).*Y_ij[UJindex]))[:,1]];
 
 
-	print_with_color(:yellow,"====================Constraints are constructed!=============\n")
+  print_with_color(:yellow,"====================Constraints are constructed!=============\n")
 	f,g ,n
 end
 
@@ -539,42 +557,60 @@ function with_equality(data_a)
                                                      sum(Y_lj[:,CJindex[j]]))];
  end
 
- #MU_max constraint
+#MU_max constraint
  for j=1:J
     for k=1:K
+      # if Mi_lamb>=0
         g=[g;
-            (1/((Mu_max[j,k])*(I+L)-I*min(minimum(Lambda[:,k]),0)))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
-                                                                    (sum(Lambda[:,k].*Y_ij[:,j])+
-                                                                        (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
-                                                                                            Mi_lamb*sum(Y_lj[:,j])
-                                                                    ))];
+            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+                                        (sum(Lambda[:,k].*Y_ij[:,j])+
+                                          (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+                                                    Mi_lamb*sum(Y_lj[:,j])
+                                        ))];
+      # elseif Mu_max[j,k]>=0
+      #           g=[g;
+      #       (1/((Mu_max[j,k])*(I+L)-sum(min(Lambda[:,k],0))-Mi_lamb*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+      #                                   (sum(Lambda[:,k].*Y_ij[:,j])+
+      #                                     (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+      #                                               Mi_lamb*sum(Y_lj[:,j])
+      #                                   ))];
+      # else
+      #     g=[g;
+      #       (1/(-sum(min(Lambda[:,k],0))-Mi_lamb*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+      #                                   (sum(Lambda[:,k].*Y_ij[:,j])+
+      #                                     (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+      #                                               Mi_lamb*sum(Y_lj[:,j])
+      #                                   ))];
+      # end
     end
+
+
  end
  #Mu_min constraint
- for j=1:J
+  for j=1:J
     for k=1:K
         help=1/Mu_min[j,k];
         if help!=0
-            if Mu_min[j,k]>=0
+            # if min( Mu_min[j,k],Mi_lamb)>=0
              g=[g;
-               (1/(Ma_lamb*(I+L)))*(sum(Lambda[:,k].*Y_ij[:,j])+
-                                      (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
-                                       Mi_lamb*sum(Y_lj[:,j])-
-                                       (Mu_min[j,k])*(sum(Y_ij[:,j])+
-                                                      sum(Y_lj[:,j])
-                                                      )
-                                       )];
-            else
-                g=[g;
-               (1/((Ma_lamb*I+L-Mu_min[j,k]*(I+L))))*(sum(Lambda[:,k].*Y_ij[:,j])+
-                                                        (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
-                                                        Mi_lamb*sum(Y_lj[:,j])-
-                                                        (Mu_min[j,k])*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))
-                                                        )];
-            end
+               (1/(sum(max(Lambda[:,k],0))+L*(Ma_lamb-Mi_lamb)+L*max(0,Mi_lamb)-min(Mu_min[j,k],0)*(I+L)))*(sum(Lambda[:,k].*Y_ij[:,j])+
+                            (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+                             Mi_lamb*sum(Y_lj[:,j])-
+                             (Mu_min[j,k])*(sum(Y_ij[:,j])+
+                                      sum(Y_lj[:,j])
+                                      )
+                             )];
+            # elseif
+            #     g=[g;
+            #    (1/((Ma_lamb*I+L-Mu_min[j,k]*(I+L))))*(sum(Lambda[:,k].*Y_ij[:,j])+
+            #                         (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
+            #                         Mi_lamb*sum(Y_lj[:,j])-
+            #                         (Mu_min[j,k])*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))
+            #                         )];
+            # end
         end
     end
- end
+  end
 
  #sign constraints
  for l=1:L
@@ -619,7 +655,6 @@ function with_equality(data_a)
  
   g=[g;
        (ones(SizeUJindex[1],1)-((MO./UJ[UJindex]).*Y_ij[UJindex]))[:,1]];
-
 
   f,g,eq,n
 end
