@@ -259,7 +259,7 @@ function elimination_equality(data_a)
     for k=1:K
       # if Mi_lamb>=0
         g=[g;
-            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*L))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
                                         (sum(Lambda[:,k].*Y_ij[:,j])+
                                           (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
                                                     Mi_lamb*sum(Y_lj[:,j])
@@ -562,7 +562,7 @@ function with_equality(data_a)
     for k=1:K
       # if Mi_lamb>=0
         g=[g;
-            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*J))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*L))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
                                         (sum(Lambda[:,k].*Y_ij[:,j])+
                                           (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
                                                     Mi_lamb*sum(Y_lj[:,j])
