@@ -11,7 +11,7 @@ function Haverly_1()
     1
     0];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 
+ AJ=[0 0
     0 0
     1 1];
 
@@ -21,12 +21,12 @@ function Haverly_1()
  #capacity of input
  C_I=[Inf Inf Inf];
         #capacity of pools
- C_L=[ Inf]; 
+ C_L=[ Inf];
  #capacity of outputs
- C_J=[100 200]; 
+ C_J=[100 200];
  #lower ristriction for capacity
- lCI=[0 0 0];   
- lCL=[0]; 
+ lCI=[0 0 0];
+ lCL=[0];
  lCJ=[0 0];
 
  #Flowrate limitation
@@ -62,7 +62,9 @@ function Haverly_1()
     15];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ # printstyled("Data was read.\n",color=:yellow)
+printstyled("Data was read.\n",color=:yellow)
+
  # include("code.jl");
  # code(K,I,L,J,AI,AJ,AL,CI,CL,CJ,UI,UJ,UL,Mu_max,Mu_min,Lambda,costI,costJ,costL,Demandcost);
  #  include("elimination_2edition.jl");
@@ -82,7 +84,7 @@ function Haverly_2()
     1
     0];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 
+ AJ=[0 0
     0 0
     1 1];
 
@@ -92,12 +94,12 @@ function Haverly_2()
  #capacity of input
  C_I=[  Inf Inf Inf];
         #capacity of pools
- C_L=[  Inf]; 
+ C_L=[  Inf];
  #capacity of outputs
- C_J=[   600 200]; 
+ C_J=[   600 200];
  #lower ristriction for capacity
- lCI=[  0 0 0];   
- lCL=[  0]; 
+ lCI=[  0 0 0];
+ lCL=[  0];
  lCJ=[   0 0];
 
  #Flowrate limitation
@@ -106,7 +108,7 @@ function Haverly_2()
  #maximum for flows from input to output
  UJ=Inf*ones(I,J);
  #maximum for flows from pool to output];
- UL=Inf*ones(L,J); 
+ UL=Inf*ones(L,J);
 
  # Specification limit
  #Maximum specification
@@ -131,8 +133,8 @@ function Haverly_2()
  Demandcost=[9
     15];
 
-    
- print_with_color(:yellow, "The data was read!\n")
+
+ printstyled( "The data was read!\n",color=:yellow)
 
  return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -148,7 +150,7 @@ function Haverly_3()
     1
     0];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 
+ AJ=[0 0
     0 0
     1 1];
 
@@ -158,12 +160,12 @@ function Haverly_3()
  #capacity of input
  C_I=[  Inf Inf Inf];
         #capacity of pools
- C_L=[  Inf]; 
+ C_L=[  Inf];
  #capacity of outputs
- C_J=[100 200]; 
+ C_J=[100 200];
  #lower ristriction for capacity
- lCI=[  0 0 0];   
- lCL=[  0]; 
+ lCI=[  0 0 0];
+ lCL=[  0];
  lCJ=[   0 0];
 
  #Flowrate limitation
@@ -199,7 +201,7 @@ function Haverly_3()
     15];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 function Adhya_1()
@@ -216,20 +218,20 @@ function Adhya_1()
     0 1
     0 1];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 0 0; 
+ AJ=[0 0 0 0;
     0 0 0 0;
     0 0 0 0;
     0 0 0 0;
     0 0 0 0];
 
  #Adjacent Matrix for Bipartite Graph L=J pools to outputs];
- AL=[1 1 1 1; 
+ AL=[1 1 1 1;
     1 1 1 1];
  #Capacity
  #capacity of input
  C_I=[Inf Inf Inf Inf Inf];
         #capacity of pools
- C_L=[ Inf Inf]; 
+ C_L=[ Inf Inf];
  #capacity of outputs
  C_J=[10 25 30 10];
  #lower ristriction for capacity
@@ -248,14 +250,14 @@ function Adhya_1()
 
  # Specification limit
  #Maximum specification
- Mu_max=[3 3 3.25 0.75; 
+ Mu_max=[3 3 3.25 0.75;
         4 2.5 3.5 1.5;
         1.5 5.5 3.9 0.8;
         3 4 4 1.8];
  # Minimum specification
  Mu_min=-Inf*ones(J,K);
     #specification in inputs. It should has "I" rows and "K" columns.
- Lambda=[1 6 4 0.5; 
+ Lambda=[1 6 4 0.5;
         4 1 3 2 ;
         4 5.5 3 0.9;
         3 3 3 1;
@@ -280,7 +282,7 @@ function Adhya_1()
             10];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -298,20 +300,20 @@ function Adhya_2()
     0 1;
     0 1];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 0 0; 
+ AJ=[0 0 0 0;
     0 0 0 0;
     0 0 0 0;
     0 0 0 0;
     0 0 0 0];
 
  #Adjacent Matrix for Bipartite Graph L=J pools to outputs];
- AL=[1 1 1 1; 
+ AL=[1 1 1 1;
     1 1 1 1];
  #Capacity
  #capacity of input
  C_I=[Inf Inf Inf Inf Inf];
         #capacity of pools
- C_L=[ Inf Inf]; 
+ C_L=[ Inf Inf];
  #capacity of outputs
  C_J=[10 25 30 10];
  #lower ristriction for capacity
@@ -330,14 +332,14 @@ function Adhya_2()
 
  # Specification limit
  #Maximum specification
- Mu_max=[3 3 3.25 0.75   6.00    5.00; 
+ Mu_max=[3 3 3.25 0.75   6.00    5.00;
         4 2.5 3.5 1.5  7.00    6.00;
         1.5 5.5 3.9 0.8 7.00    6.00 ;
         3 4 4 1.8  8.00    6.00 ];
  # Minimum specification
  Mu_min=-Inf*ones(J,K);
     #specification in inputs. It should has "I" rows and "K" columns.
- Lambda=[1 6 4 0.5  5.00    9.00; 
+ Lambda=[1 6 4 0.5  5.00    9.00;
         4 1 3 2 4.00    4.00;
         4 5.5 3 0.9 7.00   10.00;
         3 3 3 1  3.00    4.00;
@@ -363,7 +365,7 @@ function Adhya_2()
             10];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
  return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -384,7 +386,7 @@ function Adhya_3()
     0 0 1;
     0 0 1];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 0 0; 
+ AJ=[0 0 0 0;
     0 0 0 0;
     0 0 0 0;
     0 0 0 0;
@@ -394,14 +396,14 @@ function Adhya_3()
     0 0 0 0];
 
  # Adjacent Matrix for Bipartite Graph L=J pools to outputs];
- AL=[1 1 1 1; 
+ AL=[1 1 1 1;
     1 1 1 1;
     1 1 1 1];
  #Capacity
  #capacity of input
  C_I=[Inf Inf Inf Inf Inf];
         #capacity of pools
- C_L=[ Inf Inf]; 
+ C_L=[ Inf Inf];
  #capacity of outputs
  C_J=[10 25 30 10];
  #lower ristriction for capacity
@@ -427,7 +429,7 @@ function Adhya_3()
  # Minimum specification
  Mu_min=-Inf*ones(J,K);
     #specification in inputs. It should has "I" rows and "K" columns.
- Lambda=[1        6      4       0.5    5.00    9.00; 
+ Lambda=[1        6      4       0.5    5.00    9.00;
         4        1       3        2    4.00    4.00;
         4        5.5     3      0.9    7.00   10.00 ;
         3        3      3        1      3.00    4.00;
@@ -437,13 +439,13 @@ function Adhya_3()
         3.00    3.00    3.00    1.00    5.00    2.00];
 
  #costs
- costI=[7.00    0.00    0.00    
-      3.00    0.00    0.00   
-      0.00    2.00    0.00   
-      0.00   10.00    0.00   
-      0.00    5.00    0.00    
-      0.00    0.00    5.00    
-      0.00    0.00    9.00   
+ costI=[7.00    0.00    0.00
+      3.00    0.00    0.00
+      0.00    2.00    0.00
+      0.00   10.00    0.00
+      0.00    5.00    0.00
+      0.00    0.00    5.00
+      0.00    0.00    9.00
       0.00    0.00   11.00 ];
  costJ=[0.00    0.00    0.00    0.00
         0.00    0.00    0.00    0.00
@@ -461,7 +463,7 @@ function Adhya_3()
             10];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -482,7 +484,7 @@ function Adhya_4()
     0 1;
     0 1];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 0 0 0; 
+ AJ=[0 0 0 0 0;
     0 0 0 0 0;
     0 0 0 0 0;
     0 0 0 0 0;
@@ -492,13 +494,13 @@ function Adhya_4()
     0 0 0 0 0];
 
  #Adjacent Matrix for Bipartite Graph L=J pools to outputs];
- AL=[1 1 1 1 1;    
+ AL=[1 1 1 1 1;
     1 1 1 1 1];
     #Capacity
  #capacity of input
  C_I=[Inf Inf Inf Inf Inf Inf Inf Inf];
         #capacity of pools
- C_L=[ Inf Inf]; 
+ C_L=[ Inf Inf];
  #capacity of outputs
  C_J=[15 25 10 20 15];
  #lower ristriction for capacity
@@ -535,13 +537,13 @@ function Adhya_4()
       1.40    1.60    1.20    1.60];
 
  #costs
- costI=[15.00    0.00    
-      7.00    0.00  
-      4.00    0.00 
-      5.00    0.00 
-      0.00    6.00 
-      0.00    3.00  
-      0.00    5.00  
+ costI=[15.00    0.00
+      7.00    0.00
+      4.00    0.00
+      5.00    0.00
+      0.00    6.00
+      0.00    3.00
+      0.00    5.00
       0.00    5.00  ];
  costJ=[0.00    0.00    0.00    0.00     0
         0.00    0.00    0.00    0.00    0
@@ -561,7 +563,7 @@ function Adhya_4()
             10];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -580,7 +582,7 @@ function Foulds_2()
     0 1
     0 0];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 0 0; 
+ AJ=[0 0 0 0;
     0 0 0 0;
     1 1 1 1;
     0 0 0 0;
@@ -594,7 +596,7 @@ function Foulds_2()
  #capacity of input
  C_I=[   600.00       600.00    600.00   600.00     600.00  600.00];
         #capacity of pools
- C_L=[   600.00  600.00]; 
+ C_L=[   600.00  600.00];
  #capacity of outputs
  C_J=[100 200 100 200];
  #lower ristriction for capacity
@@ -613,14 +615,14 @@ function Foulds_2()
 
  # Specification limit
  #Maximum specification
- Mu_max=[2.5; 
+ Mu_max=[2.5;
         1.5;
         3;
         2];
  # Minimum specification
  Mu_min=-Inf*ones(J,K);
     #specification in inputs. It should has "I" rows and "K" columns.
- Lambda=[3; 
+ Lambda=[3;
         1;
         2;
         3.5;
@@ -646,7 +648,7 @@ function Foulds_2()
  Demandcost=zeros(J,1);
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -658,16 +660,16 @@ function Foulds_3()
 
  # Defining problems' flowchart
  #Adjacent Matrix for Bipartite Graph I=L inputs to pools
- AI=[0   0   0   0   0   0   0   1  
-    0   0   0   0   0   0   1   1 
-    0   0   0   0   0   1   1   1  
-    0   0   0   0   1   1   1   1   
-    0   0   0   1   1   1   1   0   
-    0   0   1   1   1   1   0   0   
-    0   1   1   1   1   0   0   0   
-    1   1   1   1   0   0   0   0   
-    1   1   1   0   0   0   0   0   
-    1   1   0   0   0   0   0   0   
+ AI=[0   0   0   0   0   0   0   1
+    0   0   0   0   0   0   1   1
+    0   0   0   0   0   1   1   1
+    0   0   0   0   1   1   1   1
+    0   0   0   1   1   1   1   0
+    0   0   1   1   1   1   0   0
+    0   1   1   1   1   0   0   0
+    1   1   1   1   0   0   0   0
+    1   1   1   0   0   0   0   0
+    1   1   0   0   0   0   0   0
     1   0   0   0   0   0   0   0 ];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
  AJ=[0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
@@ -714,7 +716,7 @@ function Foulds_3()
              16.00
              16.00
              16.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[   1.00
          1.00
@@ -731,12 +733,12 @@ function Foulds_3()
          1.00
          1.00
          1.00
-         1.00]; 
+         1.00];
 
  C_J=CJ';
  #lower ristriction for capacity
  lCI=[  0 0 0 0 0 0 0 0 0 0 0 ];;
- lCL=[ 0 0 0 0 0 0 0 0]; 
+ lCL=[ 0 0 0 0 0 0 0 0];
  lCJ=[   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
  #Flowrate limitation
@@ -782,16 +784,16 @@ function Foulds_3()
      1.00];
 
  #costs
- costI=[0.00    0.00    0.00    0.00    0.00    0.00    0.00   10.00 
-       0.00    0.00    0.00    0.00    0.00    0.00   11.00   11.00 
-       0.00    0.00    0.00    0.00    0.00   12.00   12.00   12.00 
-       0.00    0.00    0.00    0.00   13.00   13.00   13.00   13.00 
-       0.00    0.00    0.00   14.00   14.00   14.00   14.00    0.00 
-       0.00    0.00   15.00   15.00   15.00   15.00    0.00    0.00 
-       0.00   16.00   16.00   16.00   16.00    0.00    0.00    0.00 
-      17.00   17.00   17.00   17.00    0.00    0.00    0.00    0.00 
-      18.00   18.00   18.00    0.00    0.00    0.00    0.00    0.00 
-      19.00   19.00    0.00    0.00    0.00    0.00    0.00    0.00 
+ costI=[0.00    0.00    0.00    0.00    0.00    0.00    0.00   10.00
+       0.00    0.00    0.00    0.00    0.00    0.00   11.00   11.00
+       0.00    0.00    0.00    0.00    0.00   12.00   12.00   12.00
+       0.00    0.00    0.00    0.00   13.00   13.00   13.00   13.00
+       0.00    0.00    0.00   14.00   14.00   14.00   14.00    0.00
+       0.00    0.00   15.00   15.00   15.00   15.00    0.00    0.00
+       0.00   16.00   16.00   16.00   16.00    0.00    0.00    0.00
+      17.00   17.00   17.00   17.00    0.00    0.00    0.00    0.00
+      18.00   18.00   18.00    0.00    0.00    0.00    0.00    0.00
+      19.00   19.00    0.00    0.00    0.00    0.00    0.00    0.00
       20.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00 ];
  costJ=zeros(11,16);
 
@@ -799,7 +801,7 @@ function Foulds_3()
  Demandcost=-[-20.00  -19.50  -19.00  -18.50  -18.00  -17.50  -17.00  -16.50  -16.00  -15.50  -15.00  -14.50  -14.00  -13.50  -13.00  -12.50];
  Demandcost=Demandcost';
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -867,7 +869,7 @@ function Foulds_4()
              16.00
              16.00
              16.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[   1.00
          1.00
@@ -884,12 +886,12 @@ function Foulds_4()
          1.00
          1.00
          1.00
-         1.00]; 
+         1.00];
 
  C_J=CJ';
  #lower ristriction for capacity
  lCI=[  0 0 0 0 0 0 0 0 0 0 0 ];;
- lCL=[ 0 0 0 0 0 0 0 0]; 
+ lCL=[ 0 0 0 0 0 0 0 0];
  lCJ=[   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
  # Flowrate limitation
@@ -936,15 +938,15 @@ function Foulds_4()
 
  #costs
  costI=[0.00   10.00    0.00    0.00    0.00    0.00    0.00    0.00
-     11.00    0.00    0.00    0.00    0.00    0.00    0.00   11.00 
-      0.00    0.00    0.00    0.00    0.00   12.00   12.00   12.00 
-      0.00   13.00    0.00    0.00   13.00    0.00   13.00   13.00 
-     14.00    0.00    0.00   14.00    0.00   14.00   14.00    0.00 
-      0.00    0.00   15.00   15.00   15.00   15.00    0.00    0.00 
-      0.00   16.00   16.00    0.00   16.00    0.00    0.00   16.00 
-     17.00    0.00    0.00   17.00    0.00   17.00   17.00    0.00 
-      0.00    0.00   18.00   18.00   18.00    0.00    0.00    0.00 
-      0.00   19.00   19.00    0.00    0.00    0.00    0.00    0.00 
+     11.00    0.00    0.00    0.00    0.00    0.00    0.00   11.00
+      0.00    0.00    0.00    0.00    0.00   12.00   12.00   12.00
+      0.00   13.00    0.00    0.00   13.00    0.00   13.00   13.00
+     14.00    0.00    0.00   14.00    0.00   14.00   14.00    0.00
+      0.00    0.00   15.00   15.00   15.00   15.00    0.00    0.00
+      0.00   16.00   16.00    0.00   16.00    0.00    0.00   16.00
+     17.00    0.00    0.00   17.00    0.00   17.00   17.00    0.00
+      0.00    0.00   18.00   18.00   18.00    0.00    0.00    0.00
+      0.00   19.00   19.00    0.00    0.00    0.00    0.00    0.00
      20.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00 ];
  costJ=zeros(11,16);
 
@@ -952,7 +954,7 @@ function Foulds_4()
  Demandcost=-[-20.00  -19.50  -19.00  -18.50  -18.00  -17.50  -17.00  -16.50  -16.00  -15.50  -15.00  -14.50  -14.00  -13.50  -13.00  -12.50];
  Demandcost=Demandcost';
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
  return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -969,7 +971,7 @@ function BenTal_4()
     1
     0];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 
+ AJ=[0 0
     0 0
     0 0
     1 1];
@@ -980,12 +982,12 @@ function BenTal_4()
  #capacity of input
  C_I=[  Inf 50 Inf Inf];
         #capacity of pools
- C_L=[  Inf]; 
+ C_L=[  Inf];
  #capacity of outputs
- C_J=[100 200]; 
+ C_J=[100 200];
  #lower ristriction for capacity
- lCI=[  0 0 0];   
- lCL=[  0]; 
+ lCI=[  0 0 0];
+ lCL=[  0];
  lCJ=[   0 0];
 
  #Flowrate limitation
@@ -1024,7 +1026,7 @@ function BenTal_4()
     15];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -1043,26 +1045,26 @@ function BenTal_5()
     1 1 1;
     0 0 0];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 0 0 0 0; 
+ AJ=[0 0 0 0 0;
     0 0 0 0 0;
     0 0 0 0 0;
     0 0 0 0 0;
     1 1 1 1 1];
 
  #Adjacent Matrix for Bipartite Graph L=J pools to outputs];
- AL=[1 1 1 1 1; 
+ AL=[1 1 1 1 1;
     1 1 1 1 1;
     1 1 1 1 1];
  #Capacity
  #capacity of input
  C_I=[Inf Inf 50 Inf Inf];
         #capacity of pools
- C_L=[Inf Inf Inf]; 
+ C_L=[Inf Inf Inf];
  #capacity of outputs
- C_J=[100 200 100 100 100]; 
+ C_J=[100 200 100 100 100];
  #lower ristriction for capacity
- lCI=[  0 0 0 0 0];   
- lCL=[  0 0 0]; 
+ lCI=[  0 0 0 0 0];
+ lCL=[  0 0 0];
  lCJ=[   0 0 0 0 0];
 
  #Flowrate limitation
@@ -1076,7 +1078,7 @@ function BenTal_5()
 
  # Specification limit
  #Maximum specification
- Mu_max=[2.5 2; 
+ Mu_max=[2.5 2;
         1.5 2.5
         2 2.6;
         2 2;
@@ -1084,7 +1086,7 @@ function BenTal_5()
  # Minimum specification
  Mu_min=-Inf*ones(J,K);
     #specification in inputs. It should has "I" rows and "K" columns.
- Lambda=[3 1; 
+ Lambda=[3 1;
         1 3;
         1 2.5;
         1.5 2.5;
@@ -1112,7 +1114,7 @@ function BenTal_5()
             14];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -1138,7 +1140,7 @@ function DeyGupte_4()
  #capacity of input
  C_I=[ 2*n 2*n];;
         #capacity of pools
- C_L=[n n]; 
+ C_L=[n n];
  #capacity of outputs
  C_J=ones(1,J);
  #lower ristriction for capacity
@@ -1183,7 +1185,7 @@ function DeyGupte_4()
  Demandcost=zeros(J,1);
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -1199,7 +1201,7 @@ function RT2()
     1 1
     1 1];
  # Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[0 1 0 
+ AJ=[0 1 0
     1 0 1
     1 0 0];
 
@@ -1214,8 +1216,8 @@ function RT2()
  C_I=CI';
         #capacity of pools
         CL=[ 12.50
-           17.50]; 
- C_L=CL'; 
+           17.50];
+ C_L=CL';
  #capacity of outputs
  C_J=[   300 300 300];
  #lower ristriction for capacity
@@ -1245,7 +1247,7 @@ function RT2()
       0.75    0.00  114.00   98.70   -0.75    0.00 -114.00  -98.70];
 
  #costs
- costI=[49.20   49.20    
+ costI=[49.20   49.20
      62.00   62.00
     300.00  300.00  ];
  costJ=zeros(I,J);
@@ -1256,7 +1258,7 @@ function RT2()
     150];
 
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
 
@@ -1268,28 +1270,28 @@ function sppA0()
 
  # Defining problems' flowchart
  #Adjacent Matrix for Bipartite Graph I=L inputs to pools
- AI=[1   0   1   0   0   0   0   0   0   0  
-    0   1   1   1   0   1   0   0   0   0   
-    0   0   0   0   0   1   0   0   1   1  
+ AI=[1   0   1   0   0   0   0   0   0   0
+    0   1   1   1   0   1   0   0   0   0
+    0   0   0   0   0   1   0   0   1   1
     0   1   0   1   0   0   0   0   1   0
-    0   1   1   0   0   0   0   0   1   0 
-    1   0   1   0   0   0   0   1   0   1 
-    0   1   0   1   1   0   0   1   0   0   
-    0   0   0   0   0   0   1   1   0   0  
-    0   0   1   0   0   0   1   0   1   0  
-    0   0   0   0   0   1   1   0   1   0  
-    1   1   0   0   0   0   0   0   1   0  
-    1   0   0   0   1   0   0   0   1   0  
-    0   0   0   0   1   1   0   0   0   0 
-    1   1   1   1   0   1   0   1   1   0  
-    1   0   0   0   0   1   0   0   0   1  
-    0   0   0   0   0   1   0   0   1   1  
-    0   1   0   1   0   0   0   0   0   0 
-    1   1   1   0   0   1   0   0   0   0  
-    0   0   0   0   0   0   0   0   0   0 
+    0   1   1   0   0   0   0   0   1   0
+    1   0   1   0   0   0   0   1   0   1
+    0   1   0   1   1   0   0   1   0   0
+    0   0   0   0   0   0   1   1   0   0
+    0   0   1   0   0   0   1   0   1   0
+    0   0   0   0   0   1   1   0   1   0
+    1   1   0   0   0   0   0   0   1   0
+    1   0   0   0   1   0   0   0   1   0
+    0   0   0   0   1   1   0   0   0   0
+    1   1   1   1   0   1   0   1   1   0
+    1   0   0   0   0   1   0   0   0   1
+    0   0   0   0   0   1   0   0   1   1
+    0   1   0   1   0   0   0   0   0   0
+    1   1   1   0   0   1   0   0   0   0
+    0   0   0   0   0   0   0   0   0   0
     0   0   0   1   1   1   0   0   0   1 ];
  #Adjacent Matrix for Bipartite Graph I=J inputs to outputs
- AJ=[ 1   0   0   0   0   0   0   0   0   0   0   0   1   0   0; 
+ AJ=[ 1   0   0   0   0   0   0   0   0   0   0   0   1   0   0;
      0   0   0   1   0   0   0   0   0   1   0   0   0   1   0;
      0   0   0   0   0   0   0   1   1   0   0   0   0   0   1;
      0   0   0   0   1   0   0   0   0   0   0   0   0   0   0;
@@ -1342,7 +1344,7 @@ function sppA0()
                      302.00
                       96.00
                      175.00
-                     63.00]; 
+                     63.00];
  C_I=CI';
         #capacity of pools
         CL=[    97.00
@@ -1355,7 +1357,7 @@ function sppA0()
                      184.00
                      113.00
                      137.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[176.00
                      265.00
@@ -1429,25 +1431,25 @@ function sppA0()
     17.00   78.31    4.88   42.58   77.08   29.91   44.87   51.62   35.89   36.77    0.62   26.36  -17.00  -78.31   -4.88  -42.58  -77.08  -29.91  -44.87  -51.62  -35.89  -36.77   -0.62  -26.36];
 
  #costs
- costI=[  21.00    0.00   21.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00 
-        0.00   43.00   43.00   43.00    0.00   43.00    0.00    0.00    0.00    0.00  
-        0.00    0.00    0.00    0.00    0.00   28.00    0.00    0.00   28.00   28.00  
-        0.00   37.00    0.00   37.00    0.00    0.00    0.00    0.00   37.00    0.00   
-        0.00   50.00   50.00    0.00    0.00    0.00    0.00    0.00   50.00    0.00   
-       13.00    0.00   13.00    0.00    0.00    0.00    0.00   13.00    0.00   13.00  
-        0.00   14.00    0.00   14.00   14.00    0.00    0.00   14.00    0.00    0.00  
-        0.00    0.00    0.00    0.00    0.00    0.00   25.00   25.00    0.00    0.00  
-        0.00    0.00   31.00    0.00    0.00    0.00   31.00    0.00   31.00    0.00   
-        0.00    0.00    0.00    0.00    0.00   14.00   14.00    0.00   14.00    0.00   
-        36.00   36.00    0.00    0.00    0.00    0.00    0.00    0.00   36.00    0.00  
-        31.00    0.00    0.00    0.00   31.00    0.00    0.00    0.00   31.00    0.00   
-        0.00    0.00    0.00    0.00   37.00   37.00    0.00    0.00    0.00    0.00 
-        25.00   25.00   25.00   25.00    0.00   25.00    0.00   25.00   25.00    0.00 
-        50.00    0.00    0.00    0.00    0.00   50.00    0.00    0.00    0.00   50.00  
-        0.00    0.00    0.00    0.00    0.00   43.00    0.00    0.00   43.00   43.00  
-        0.00   26.00    0.00   26.00    0.00    0.00    0.00    0.00    0.00    0.00   
-        29.00   29.00   29.00    0.00    0.00   29.00    0.00    0.00    0.00    0.00  
-        0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00 
+ costI=[  21.00    0.00   21.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
+        0.00   43.00   43.00   43.00    0.00   43.00    0.00    0.00    0.00    0.00
+        0.00    0.00    0.00    0.00    0.00   28.00    0.00    0.00   28.00   28.00
+        0.00   37.00    0.00   37.00    0.00    0.00    0.00    0.00   37.00    0.00
+        0.00   50.00   50.00    0.00    0.00    0.00    0.00    0.00   50.00    0.00
+       13.00    0.00   13.00    0.00    0.00    0.00    0.00   13.00    0.00   13.00
+        0.00   14.00    0.00   14.00   14.00    0.00    0.00   14.00    0.00    0.00
+        0.00    0.00    0.00    0.00    0.00    0.00   25.00   25.00    0.00    0.00
+        0.00    0.00   31.00    0.00    0.00    0.00   31.00    0.00   31.00    0.00
+        0.00    0.00    0.00    0.00    0.00   14.00   14.00    0.00   14.00    0.00
+        36.00   36.00    0.00    0.00    0.00    0.00    0.00    0.00   36.00    0.00
+        31.00    0.00    0.00    0.00   31.00    0.00    0.00    0.00   31.00    0.00
+        0.00    0.00    0.00    0.00   37.00   37.00    0.00    0.00    0.00    0.00
+        25.00   25.00   25.00   25.00    0.00   25.00    0.00   25.00   25.00    0.00
+        50.00    0.00    0.00    0.00    0.00   50.00    0.00    0.00    0.00   50.00
+        0.00    0.00    0.00    0.00    0.00   43.00    0.00    0.00   43.00   43.00
+        0.00   26.00    0.00   26.00    0.00    0.00    0.00    0.00    0.00    0.00
+        29.00   29.00   29.00    0.00    0.00   29.00    0.00    0.00    0.00    0.00
+        0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
         0.00    0.00    0.00   14.00   14.00   14.00    0.00    0.00    0.00   14.00 ];
  costJ=[ -27.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  -21.00    0.00    0.00;
       0.00    0.00    0.00    3.00    0.00    0.00    0.00    0.00    0.00   -5.00    0.00    0.00    0.00    2.00    0.00;
@@ -1482,7 +1484,7 @@ function sppA0()
     0.00    0.00    0.00  -40.00    0.00    0.00    0.00    0.00    0.00    0.00  -41.00    0.00    0.00  -41.00  -40.00];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
 	return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -1551,7 +1553,7 @@ function sppA1()
  #Capacity
  #capacity of input
 
-               
+
  CI=[   255.00
                        78.00
                      188.00
@@ -1571,7 +1573,7 @@ function sppA1()
                       39.00
                        9.00
                      297.00
-                     265.00]; 
+                     265.00];
  C_I=CI';
         #capacity of pools
         CL=[      125.00
@@ -1584,7 +1586,7 @@ function sppA1()
                      152.00
                      131.00
                      197.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[      243.00
                       29.00
@@ -1658,26 +1660,26 @@ function sppA1()
      11.22   75.25   35.42   63.76    6.36   51.47   79.50   34.97   44.92   48.93   41.37   74.82  -11.22  -75.25  -35.42  -63.76   -6.36  -51.47  -79.50  -34.97  -44.92  -48.93  -41.37  -74.82];
 
  #costs
-         
- costI=[0.00    0.00   11.00   11.00    0.00    0.00   11.00    0.00   11.00    0.00   
-      0.00    0.00    0.00    0.00   37.00    0.00    0.00   37.00    0.00   37.00    
-      0.00    0.00    0.00   13.00    0.00   13.00   13.00   13.00   13.00    0.00  
-      0.00    0.00   33.00    0.00   33.00    0.00    0.00   33.00    0.00    0.00   
-     10.00    0.00    0.00   10.00   10.00    0.00    0.00    0.00   10.00    0.00   
-      0.00   29.00    0.00    0.00   29.00   29.00    0.00   29.00   29.00    0.00   
-      0.00    0.00   24.00   24.00   24.00    0.00    0.00    0.00   24.00    0.00    
-      0.00    0.00    0.00   27.00   27.00    0.00    0.00    0.00   27.00    0.00   
-      0.00   47.00   47.00   47.00    0.00   47.00    0.00   47.00    0.00    0.00   
-      0.00    0.00   44.00    0.00    0.00   44.00    0.00    0.00    0.00    0.00  
-     12.00   12.00    0.00    0.00   12.00    0.00    0.00   12.00    0.00    0.00   
-      0.00   29.00   29.00    0.00    0.00   29.00    0.00   29.00   29.00    0.00 
-      0.00    0.00   27.00    0.00   27.00    0.00    0.00   27.00   27.00   27.00 
-      0.00   30.00   30.00    0.00   30.00    0.00    0.00   30.00    0.00    0.00 
-     49.00    0.00    0.00    0.00    0.00   49.00    0.00    0.00    0.00    0.00 
-      0.00    0.00    0.00    0.00   42.00    0.00    0.00    0.00    0.00    0.00 
-      0.00    0.00    0.00    0.00   18.00   18.00   18.00    0.00   18.00   18.00 
-      0.00    0.00   11.00    0.00   11.00   11.00    0.00   11.00   11.00   11.00  
-      0.00    0.00   36.00    0.00    0.00    0.00    0.00   36.00   36.00    0.00  
+
+ costI=[0.00    0.00   11.00   11.00    0.00    0.00   11.00    0.00   11.00    0.00
+      0.00    0.00    0.00    0.00   37.00    0.00    0.00   37.00    0.00   37.00
+      0.00    0.00    0.00   13.00    0.00   13.00   13.00   13.00   13.00    0.00
+      0.00    0.00   33.00    0.00   33.00    0.00    0.00   33.00    0.00    0.00
+     10.00    0.00    0.00   10.00   10.00    0.00    0.00    0.00   10.00    0.00
+      0.00   29.00    0.00    0.00   29.00   29.00    0.00   29.00   29.00    0.00
+      0.00    0.00   24.00   24.00   24.00    0.00    0.00    0.00   24.00    0.00
+      0.00    0.00    0.00   27.00   27.00    0.00    0.00    0.00   27.00    0.00
+      0.00   47.00   47.00   47.00    0.00   47.00    0.00   47.00    0.00    0.00
+      0.00    0.00   44.00    0.00    0.00   44.00    0.00    0.00    0.00    0.00
+     12.00   12.00    0.00    0.00   12.00    0.00    0.00   12.00    0.00    0.00
+      0.00   29.00   29.00    0.00    0.00   29.00    0.00   29.00   29.00    0.00
+      0.00    0.00   27.00    0.00   27.00    0.00    0.00   27.00   27.00   27.00
+      0.00   30.00   30.00    0.00   30.00    0.00    0.00   30.00    0.00    0.00
+     49.00    0.00    0.00    0.00    0.00   49.00    0.00    0.00    0.00    0.00
+      0.00    0.00    0.00    0.00   42.00    0.00    0.00    0.00    0.00    0.00
+      0.00    0.00    0.00    0.00   18.00   18.00   18.00    0.00   18.00   18.00
+      0.00    0.00   11.00    0.00   11.00   11.00    0.00   11.00   11.00   11.00
+      0.00    0.00   36.00    0.00    0.00    0.00    0.00   36.00   36.00    0.00
       0.00   15.00   15.00   15.00    0.00    0.00    0.00   15.00   15.00    0.00 ];
  costJ=[   0.00    0.00    0.00    0.00    0.00    0.00    0.00  -34.00  -35.00  -35.00    0.00    0.00    0.00    0.00    0.00
           0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  -11.00    0.00
@@ -1712,7 +1714,7 @@ function sppA1()
          0.00    0.00    0.00    0.00  -49.00    0.00  -47.00    0.00    0.00  -46.00  -40.00  -49.00    0.00  -48.00    0.00 ];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -1785,10 +1787,10 @@ function sppB0()
  AL=A[I+1:I+L,L+1:L+J];
  #Capacity
  #capacity of input
- 
 
 
-               
+
+
  CI=[     284.00
                        58.00
                       207.00
@@ -1823,7 +1825,7 @@ function sppB0()
                      175.00
                      208.00
                      158.00
-                     121.00]; 
+                     121.00];
  C_I=CI';
         #capacity of pools
         CL=[   191.00
@@ -1843,7 +1845,7 @@ function sppB0()
                      124.00
                       99.00
                      159.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[   172.00
                      290.00
@@ -1878,8 +1880,8 @@ function sppB0()
  UJ=Inf*ones(I,J);
  UL=Inf*ones(L,J);
 
- 
- 
+
+
 
 
  # Specification limit
@@ -1945,7 +1947,7 @@ function sppB0()
     65.39   77.61   73.49   22.26   63.09   68.53   42.51   70.70   12.72   71.22   74.96   57.39   10.81   31.45   66.98    0.39   54.59  -65.39  -77.61  -73.49  -22.26  -63.09  -68.53  -42.51  -70.70  -12.72  -71.22  -74.96  -57.39  -10.81  -31.45  -66.98   -0.39  -54.59 ];
 
  #costs
-         C=[ 
+         C=[
   1    0.00    0.00    0.00   45.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    3.00    0.00    2.00    0.00
   2    0.00   24.00    0.00   24.00   24.00    0.00   24.00    0.00    0.00    0.00    0.00    0.00   24.00    0.00    0.00   24.00    0.00  -17.00  -26.00    0.00    0.00    0.00    0.00    0.00  -23.00    0.00  -17.00  -22.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
   3   17.00    0.00    0.00    0.00    0.00   17.00    0.00   17.00    0.00   17.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  -32.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
@@ -2004,7 +2006,7 @@ function sppB0()
  costL=C[ I+1:I+L, L+1+1:L+1+J];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -2056,10 +2058,10 @@ function sppA2()
  AL=A[I+1:I+L,L+1:L+J];
  #Capacity
  #capacity of input
- 
 
 
-               
+
+
  CI=[          223.00
                       290.00
                        55.00
@@ -2079,7 +2081,7 @@ function sppA2()
                      280.00
                      276.00
                       48.00
-                     276.00 ]; 
+                     276.00 ];
  C_I=CI';
         #capacity of pools
         CL=[      142.00
@@ -2092,7 +2094,7 @@ function sppA2()
                       87.00
                       92.00
                       66.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[      172.00
                       33.00
@@ -2121,8 +2123,8 @@ function sppA2()
  UJ=Inf*ones(I,J);
  UL=Inf*ones(L,J);
 
- 
- 
+
+
 
 
  # Specification limit
@@ -2167,7 +2169,7 @@ function sppA2()
     43.23   66.80   42.46   30.22   18.25   12.59    7.18   63.24    6.02   17.41   63.89   41.14  -43.23  -66.80  -42.46  -30.22  -18.25  -12.59   -7.18  -63.24   -6.02  -17.41  -63.89  -41.14 ];
 
  #costs
-         C=[ 
+         C=[
       0.00    0.00    0.00    0.00    0.00    0.00   27.00    0.00   27.00    0.00  -23.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  -19.00    0.00    0.00
       0.00    0.00   40.00    0.00   40.00   40.00   40.00    0.00   40.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   -9.00    0.00   -5.00    0.00   -7.00    0.00
       0.00    0.00    0.00   44.00    0.00    0.00    0.00    0.00    0.00   44.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    3.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
@@ -2204,7 +2206,7 @@ function sppA2()
  costL=C[ I+1:I+L, L+1:L+J];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -2255,10 +2257,10 @@ function sppA3()
  AL=A[I+1:I+L,L+1:L+J];
  #Capacity
  #capacity of input
- 
 
 
-               
+
+
  CI=[            69.00
                    183.00
                       246.00
@@ -2278,7 +2280,7 @@ function sppA3()
                       48.00
                      122.00
                      200.00
-                     247.00 ]; 
+                     247.00 ];
  C_I=CI';
         #capacity of pools
         CL=[          72.00
@@ -2291,7 +2293,7 @@ function sppA3()
                      200.00
                       63.00
                      122.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[         284.00
                      169.00
@@ -2320,8 +2322,8 @@ function sppA3()
  UJ=Inf*ones(I,J);
  UL=Inf*ones(L,J);
 
- 
- 
+
+
 
 
  # Specification limit
@@ -2366,7 +2368,7 @@ function sppA3()
     67.90   27.03   77.46   18.41   23.04    5.71   45.17   35.07   13.42    1.36   70.16   54.33  -67.90  -27.03  -77.46  -18.41  -23.04   -5.71  -45.17  -35.07  -13.42   -1.36  -70.16  -54.33];
 
  #costs
-         C=[ 
+         C=[
        0.00   28.00    0.00    0.00   28.00   28.00    0.00   28.00    0.00    0.00    0.00    0.00    0.00    0.00  -17.00    0.00    0.00    0.00  -15.00    0.00  -21.00    0.00  -21.00  -15.00    0.00
      13.00    0.00    0.00   13.00    0.00   13.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  -31.00  -35.00    0.00    0.00  -29.00    0.00    0.00    0.00    0.00    0.00
      43.00    0.00    0.00    0.00    0.00    0.00   43.00    0.00    0.00   43.00   -5.00    0.00    0.00   -6.00    0.00    0.00    0.00   -4.00    0.00    0.00   -6.00    0.00    0.00    0.00    0.00
@@ -2403,7 +2405,7 @@ function sppA3()
  costL=C[ I+1:I+L, L+1:L+J];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -2453,10 +2455,10 @@ function sppA4()
  AL=A[I+1:I+L,L+1:L+J];
  #Capacity
  #capacity of input
- 
 
 
-               
+
+
  CI=[               222.00
                        32.00
                       281.00
@@ -2476,7 +2478,7 @@ function sppA4()
                      237.00
                       34.00
                      281.00
-                     199.00 ]; 
+                     199.00 ];
  C_I=CI';
         #capacity of pools
         CL=[          90.00
@@ -2489,7 +2491,7 @@ function sppA4()
                       53.00
                      174.00
                      133.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[            128.00
                    273.00
@@ -2518,8 +2520,8 @@ function sppA4()
  UJ=Inf*ones(I,J);
  UL=Inf*ones(L,J);
 
- 
- 
+
+
 
 
  # Specification limit
@@ -2564,7 +2566,7 @@ function sppA4()
      4.92   38.27    8.58   13.42   26.95   28.06   22.31   78.14   38.65   18.40   56.32   66.77   -4.92  -38.27   -8.58  -13.42  -26.95  -28.06  -22.31  -78.14  -38.65  -18.40  -56.32  -66.77];
 
  #costs
-         C=[ 
+         C=[
             29.00    0.00   29.00    0.00    0.00    0.00   29.00   29.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  -13.00    0.00    0.00    0.00  -17.00    0.00  -16.00  -19.00    0.00
       0.00    0.00    0.00    0.00   12.00   12.00    0.00   12.00   12.00   12.00  -35.00  -29.00    0.00    0.00    0.00    0.00    0.00    0.00  -35.00    0.00    0.00    0.00    0.00    0.00    0.00
       0.00   44.00    0.00   44.00   44.00   44.00    0.00    0.00   44.00    0.00    0.00    0.00   -1.00    1.00   -6.00    0.00    2.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
@@ -2601,7 +2603,7 @@ function sppA4()
  costL=C[ I+1:I+L, L+1:L+J];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -2651,10 +2653,10 @@ function sppA5()
  AL=A[I+1:I+L,L+1:L+J];
  #Capacity
  #capacity of input
- 
 
 
-               
+
+
  CI=[                 102.00
                        50.00
                        24.00
@@ -2674,7 +2676,7 @@ function sppA5()
                      220.00
                      214.00
                       11.00
-                      57.00]; 
+                      57.00];
  C_I=CI';
         #capacity of pools
         CL=[              95.00
@@ -2687,7 +2689,7 @@ function sppA5()
                      170.00
                      139.00
                      111.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[               244.00
                      190.00
@@ -2716,8 +2718,8 @@ function sppA5()
  UJ=Inf*ones(I,J);
  UL=Inf*ones(L,J);
 
- 
- 
+
+
 
 
  # Specification limit
@@ -2762,7 +2764,7 @@ function sppA5()
     75.94   15.06   29.15   59.02   66.47    8.91   43.05   52.84    8.43   40.97   41.17   62.51  -75.94  -15.06  -29.15  -59.02  -66.47   -8.91  -43.05  -52.84   -8.43  -40.97  -41.17  -62.51];
 
  #costs
-         C=[ 
+         C=[
       21.00    0.00   21.00   21.00   21.00   21.00    0.00    0.00    0.00   21.00    0.00    0.00    0.00    0.00  -29.00    0.00  -23.00    0.00  -21.00    0.00    0.00    0.00  -23.00    0.00    0.00
       0.00   22.00    0.00   22.00    0.00   22.00   22.00    0.00   22.00    0.00    0.00  -19.00    0.00  -28.00    0.00    0.00    0.00    0.00    0.00  -21.00  -23.00    0.00    0.00    0.00    0.00
      49.00   49.00   49.00    0.00   49.00   49.00    0.00    0.00   49.00   49.00    1.00    0.00    0.00    0.00    0.00    5.00    5.00    0.00    0.00    0.00    0.00    0.00    0.00    1.00    2.00
@@ -2799,7 +2801,7 @@ function sppA5()
  costL=C[ I+1:I+L, L+1:L+J];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
@@ -2850,10 +2852,10 @@ function sppA6()
  AL=A[I+1:I+L,L+1:L+J];
  #Capacity
  #capacity of input
- 
 
 
-               
+
+
  CI=[             285.00
                       255.00
                        63.00
@@ -2873,7 +2875,7 @@ function sppA6()
                       30.00
                       62.00
                       63.00
-                     233.00]; 
+                     233.00];
  C_I=CI';
         #capacity of pools
         CL=[                 87.00
@@ -2886,7 +2888,7 @@ function sppA6()
                       75.00
                       81.00
                      152.00];
- C_L=CL'; 
+ C_L=CL';
  #capacity of outputs
  CJ=[                 21.00
                      138.00
@@ -2915,8 +2917,8 @@ function sppA6()
  UJ=Inf*ones(I,J);
  UL=Inf*ones(L,J);
 
- 
- 
+
+
 
 
  # Specification limit
@@ -2961,7 +2963,7 @@ function sppA6()
     75.94   15.06   29.15   59.02   66.47    8.91   43.05   52.84    8.43   40.97   41.17   62.51  -75.94  -15.06  -29.15  -59.02  -66.47   -8.91  -43.05  -52.84   -8.43  -40.97  -41.17  -62.51];
 
  #costs
-         C=[ 
+         C=[
       21.00    0.00   21.00   21.00   21.00   21.00    0.00    0.00    0.00   21.00    0.00    0.00    0.00    0.00  -29.00    0.00  -23.00    0.00  -21.00    0.00    0.00    0.00  -23.00    0.00    0.00
       0.00   22.00    0.00   22.00    0.00   22.00   22.00    0.00   22.00    0.00    0.00  -19.00    0.00  -28.00    0.00    0.00    0.00    0.00    0.00  -21.00  -23.00    0.00    0.00    0.00    0.00
      49.00   49.00   49.00    0.00   49.00   49.00    0.00    0.00   49.00   49.00    1.00    0.00    0.00    0.00    0.00    5.00    5.00    0.00    0.00    0.00    0.00    0.00    0.00    1.00    2.00
@@ -2998,7 +3000,7 @@ function sppA6()
  costL=C[ I+1:I+L, L+1:L+J];
  Demandcost=zeros(J,1);
 
- print_with_color(:yellow,"Data was read.\n")
+ printstyled("Data was read.\n",color=:yellow)
 
     return (I,J,K,L,AI,AJ,AL,C_I,C_J,C_L,lCI,lCL,lCJ,UI,UJ,UL,Mu_max,Mu_min, Lambda,costI,costL,costJ,Demandcost)
 end
