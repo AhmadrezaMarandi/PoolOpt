@@ -7,4 +7,6 @@ export pooling_with_eq_Sparse_BSOS,pooling_without_eq_Sparse_BSOS,pooling_with_e
 export pooling_without_eq_Merge_Sparse_BSOS
 include("pooling_data.jl")
 include("pooling_problem_hierarchy.jl")
-end # module
+
+end
+# module
