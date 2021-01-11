@@ -1161,7 +1161,7 @@ function DeyGupte_4()
  #Maximum specification
  M=[0.87;0.83;0.84;0.9];
  # M=[0.87; 0.8701;0.8699;0.8702];
- Mu_max=[M 1-M];
+ Mu_max=[M 1 .- M];
  # Minimum specification
  Mu_min=Mu_max;
     #specification in inputs. It should has "I" rows and "K" columns.
