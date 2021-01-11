@@ -129,9 +129,7 @@ function elimination_equality(data_a)
        # print(A)
     (Q,R)=qr(A); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
     #Solving elimination (25) in Marandi, de Klerk, Dahl's paper
-
-    Q = Array(Q);
-    R = Array(R);
+    Q =Q*Matrix(LinearAlgebra.I,K+1,K+1);
 
 
     h=sum(Y_lj[l,:]);
@@ -194,14 +192,19 @@ function elimination_equality(data_a)
     A=[ones(1,Int(Poolinputsize[l]));
         h'] ; # A is the coeffiecient matrix of the input flow variables
        # print(A)
-    (Q,R)=qr(A); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
+    Q,R=qr(A); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
+    # println("Q",Q)
+    # println("R",R)
+    #
+    # println(Matrix{Int}(LinearAlgebra.I,K+1,K+1))
+    Q= Q * Matrix(LinearAlgebra.I,K+1,K+1);
 
-    Q = Array(Q);
-    R = Array(R);
-    Q=Q';
+    Q= Q';
 
 
     # 0=Q'*[1; P_lk]
+
+
     h=-pinv(Q[Int(Poolinputsize[l])+1:K+1,Int(Poolinputsize[l])+1:K+1])*Q[Int(Poolinputsize[l])+1:K+1,1:Int(Poolinputsize[l])]*[1/(Ma_lamb-Mi_lamb);p+(Mi_lamb/(Ma_lamb-Mi_lamb))*ones(Int(Poolinputsize[l])-1,1)]-(Mi_lamb/(Ma_lamb-Mi_lamb))*ones(-Int(Poolinputsize[l])+K+1,1);
     for k=Int(Poolinputsize[l]):K
       P_lk[l,k]=h[k-Int(Poolinputsize[l])+1];
@@ -727,8 +730,8 @@ function pooling_with_eq_BSOS(data_a , d::Int, k::Int)
    end
    println("$(size([g_eq;eq_eq]))")
       prob = bsosprob_chordal(d, k, I, f_eq, [g_eq;eq_eq]);
-      # printstyled("====================MOSEK is solving the problem... =============\n",color=:yellow)
-      time_solution=@elapsed X, t, l,  y ,solsta = solve_mosek(prob, tolrelgap=1e-10);
+      printstyled("====================MOSEK is solving the problem... =============\n",color=:yellow)
+      time_solution=@elapsed X, t, l, y ,solsta = solve_mosek(prob, tolrelgap=1e-10);
       return( t*f_eqscale,solsta, time_solution)
 end
 
@@ -769,6 +772,7 @@ function pooling_without_eq_BSOS(data_a , d::Int, k::Int)
       # end
       # prob.Al=unique_ro(A,Al);
       # printstyled("====================MOSEK is solving the problem... =============\n",color=:yellow)
+      # io = fileio +".txt";
       time_solution=@elapsed X, t, l,  y ,solsta= solve_mosek(prob, tolrelgap=1e-10);
       deg=Array{Int64}[];
       for j=1:size(g,1)
