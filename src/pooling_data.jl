@@ -1178,7 +1178,9 @@ function DeyGupte_4()
  for i=1:Int(round(n*(n-1)/2))
     t[i,:]=Cmatr[i];
  end
- delta=minimum(sqrt(sum((Mu_max[t[:,1],:]-Mu_max[t[:,2],:]).^2,2)));
+
+
+ delta=minimum(sqrt.(sum((Mu_max[t[:,1],:] - Mu_max[t[:,2],:]).^2,dims =2)));
 
  costL=[-1*ones(1,J)
     (2/delta)*ones(1,J)];
