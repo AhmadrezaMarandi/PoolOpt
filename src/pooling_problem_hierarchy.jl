@@ -1,5 +1,5 @@
 using Mosek
-using Main.Polyopt
+using Polyopt
 using JuMP
 using LinearAlgebra
 
