@@ -56,7 +56,9 @@ function elimination_equality(data_a)
 
  n=L*K+Int(sum(Pooloutputsize))+
       Int(sum(Inputoutputsize))+Int(sum(Poolinputsize))-L*(K+1);
- # println("n:\n",n);
+
+
+
  y = variables("y:\n",n);
  #y=collect(1:n);
  yout=y[1:Int(sum(Pooloutputsize))];# pool-output
@@ -141,22 +143,7 @@ function elimination_equality(data_a)
       # R[:,1:K+1] yinpool[sum(Poolinputsize[1:l-1])+1:sum(Poolinputsize[1:l-1])+K+1]=h*Q'*[1;P_lk[l,:]]-R[:,K+2:end]*[Y_il[k+1:end]]
      #we use pseudoinverse for elimination
      A_plas=pinv(R[:,1:K+1]);
-     #
-     # print("A_plas*Q'*Pvec:\n",A_plas*Q'*Pvec);
-     # print("\n")
-     # print("Q':\n",Q')
-     #
-     # print("Pvec:\n", Pvec)
-     # pause()
-     # exit()
-     # print("size(Q'*Pvec ):\n", size(Q'*Pvec));
 
-     # print("\n")
-     #
-     # print("nan*nan:\n", R[:,K+2:end]*yinpool);
-     # print("\n")
-     # print("A_plas*nan*nan:\n", A_plas*R[:,K+2:end]*yinpool);
-     # print("\n")
 
      y_help=A_plas*(Q'*Pvec - R[:,K+2:end]*yinpool);
 
@@ -193,9 +180,7 @@ function elimination_equality(data_a)
         h'] ; # A is the coeffiecient matrix of the input flow variables
        # print(A)
     Q,R=qr(A); #Q is full rank (K+1)*(K+1) and R is uppertriangular (K+1)*Inputsize(l)
-    # println("Q",Q)
-    # println("R",R)
-    #
+
     # println(Matrix{Int}(LinearAlgebra.I,K+1,K+1))
     Q= Q * Matrix(LinearAlgebra.I,K+1,K+1);
 
@@ -406,21 +391,24 @@ function with_equality(data_a)
  Mi_lamb=minimum(Lambda);
  MO=maximum(C_J);
 
- UIindex=findall(!iszero,1 ./ UI);
- ULindex=findall(!iszero,1 ./ UL);
- UJindex=findall(!iszero,1 ./ UJ);
+ UIindex=getindex.(findall(!iszero,1 ./ UI),2);
+ ULindex=getindex.(findall(!iszero,1 ./ UL),2);
+ UJindex=getindex.(findall(!iszero,1 ./ UJ),2);
  SizeUIindex=size(UIindex);
  SizeUJindex=size(UJindex);
  SizeULindex=size(ULindex);
- CIindex=findall(!iszero,1 ./ C_I);
- CLindex=findall(!iszero,1 ./ C_L);
- CJindex=findall(!iszero,1 ./ C_J);
+ CIindex=getindex.(findall(!iszero,1 ./ C_I),2);
+ CLindex=getindex.(findall(!iszero,1 ./ C_L),2);
+ CJindex=getindex.(findall(!iszero,1 ./ C_J),2);
+
+
+
  SizeCIindex=size(CIindex);
  SizeCJindex=size(CJindex);
  SizeCLindex=size(CLindex);
- lCIindex=findall(!iszero,lCI);
- lCLindex=findall(!iszero,lCL);
- lCJindex=findall(!iszero,lCJ);
+ lCIindex=getindex.(findall(!iszero,lCI),2);
+ lCLindex=getindex.(findall(!iszero,lCL),2);
+ lCJindex=getindex.(findall(!iszero,lCJ),2);
 
  Poolinputsize=zeros(L,1); # number of inputs feed each pool
  Poolinput=Array{Any}(undef,L); # contains inputs' indeces that feed pool l, for each pool l.
@@ -450,6 +438,7 @@ function with_equality(data_a)
 
  n=L*K+Int(sum(Pooloutputsize))+
             Int(sum(Inputoutputsize))+Int(sum(Poolinputsize));
+
 
 
  y=variables("y" ,n);
@@ -535,10 +524,10 @@ function with_equality(data_a)
  # display(Y_lj)
  # display(Y_ij)
 
- f=MO*(sum(costI.*Y_il)+
-   sum(costL.*Y_lj)+
-   sum(costJ.*Y_ij)-
-   sum((sum(Y_ij,1)+sum(Y_lj,1))*Demandcost) #the first sum is to convert one-lenght array to a polynomial
+ f=MO*(sum(costI .*Y_il)+
+   sum(costL .*Y_lj)+
+   sum(costJ .*Y_ij)-
+   sum((sum(Y_ij,dims=1)+sum(Y_lj,dims=1))*Demandcost) #the first sum is to convert one-lenght array to a polynomial
    );
  printstyled("==========Objective function is constructed! =============\n \n",color=:yellow)
 
@@ -556,11 +545,13 @@ function with_equality(data_a)
      (1/I)*(sum(Y_il[:,l])-sum(Y_lj[l,:]));
     (1/J)*(-sum(Y_il[:,l])+sum(Y_lj[l,:]))]; #just for replacing with 2 inequalities
     # balance between input and outputs specifications of a pool l
+
     for k=1:K
         lhelp=Lambda[:,k];
+        # println("lhelp'*Y_il[:,l]",lhelp'*Y_il[:,l])
         eq=[eq;
-         (1/(Ma_lamb*I))*(sum(lhelp'*Y_il[:,l])-((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)*sum(Y_lj[l,:]));
-        (1/(Ma_lamb*J))*(-sum(lhelp'*Y_il[:,l])+((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)*sum(Y_lj[l,:]))];
+         (1/(Ma_lamb*I))*(lhelp'*Y_il[:,l]-((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)*sum(Y_lj[l,:]));
+        (1/(Ma_lamb*J))*(-lhelp'*Y_il[:,l]+((Ma_lamb-Mi_lamb)*P_lk[l,k]+Mi_lamb)*sum(Y_lj[l,:]))];
     end
  end
 
@@ -605,7 +596,7 @@ function with_equality(data_a)
     for k=1:K
       # if Mi_lamb>=0
         g=[g;
-            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min(Lambda[:,k],0))-min(0,Mi_lamb)*L))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
+            (1/(max(Mu_max[j,k],0)*(I+L)-sum(min.(Lambda[:,k],0))-min(0,Mi_lamb)*L))*(Mu_max[j,k]*(sum(Y_ij[:,j])+sum(Y_lj[:,j]))-
                                         (sum(Lambda[:,k].*Y_ij[:,j])+
                                           (Ma_lamb-Mi_lamb)*(sum(P_lk[:,k].*Y_lj[:,j]))+
                                                     Mi_lamb*sum(Y_lj[:,j])
@@ -739,15 +730,17 @@ function pooling_without_eq_BSOS(data_a , d::Int, k::Int)
 
 
 	@time f, g, n=elimination_equality(data_a);
-	  fscale = maximum(abs.(f.c));
+    println("f before scaling:",f)
+    fscale = maximum(abs.(f.c));
      # fscale=1;
     f=Polyopt.truncate(1/fscale*f);
+
     g=Array{Polyopt.Poly{Float64},1}(g);
     for i=1:length(g)
         g[i] = Polyopt.truncate(0.9*g[i])
     end
-         I = Array{Int,1}[ collect(1:n) ];
-     y=variables("y",n);
+    I = Array{Int,1}[ collect(1:n) ];
+    y=variables("y",n);
 
       for j=1:size(I,1)
             z=variables("z",size(I[j],1));
@@ -760,6 +753,7 @@ function pooling_without_eq_BSOS(data_a , d::Int, k::Int)
    end
    println("$(size(g))")
    println("$(fscale)")
+
       prob = bsosprob_chordal(d, k, I, f, g);
       #row uniqueness
       # q=size(Al,1);
